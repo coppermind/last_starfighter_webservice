@@ -11,7 +11,6 @@ class Index {
 
   public static function Init() {
     $params = Request::Params();
-    echo '<pre>'; print_r($params); echo '</pre>';
     if (Request::Method() == 'GET') {
       Request::Head(400);
     } else {
@@ -21,12 +20,13 @@ class Index {
         Request::Head(400);
       }
     }
-    Form::Debug($params);
+    Debug::Form($params);
   }
 
   public static function ProcessRequest($params) {
     $request = new Story($params);
-    $request->RetrieveData();
+    $data = $request->RetrieveData();
+    echo json_encode($data);
   }
 
   /**
@@ -35,7 +35,7 @@ class Index {
   public static function ValidateRequest($params) {
     $ret = true;
     foreach (Request::RequiredParams() as $required) {
-      if (!in_array($required, $params)) {
+      if (!array_key_exists($required, $params)) {
         $ret = false;
       }
     }
