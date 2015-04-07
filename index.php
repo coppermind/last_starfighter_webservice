@@ -14,8 +14,8 @@ class Index {
     if (Request::Method() == 'GET') {
       Request::Head(400);
     } else {
-      if (Index::ValidateRequest($params)) {
-        Index::ProcessRequest($params);
+      if (Request::Validate()) {
+        Index::Run($params);
       } else {
         Request::Head(400);
       }
@@ -23,24 +23,10 @@ class Index {
     Debug::Form($params);
   }
 
-  public static function ProcessRequest($params) {
+  public static function Run($params) {
     $request = new Story($params);
     $data = $request->RetrieveData();
     echo json_encode($data);
-  }
-
-  /**
-  * Check if all required params are present
-  */
-  public static function ValidateRequest($params) {
-    $ret = true;
-    foreach (Request::RequiredParams() as $required) {
-      if (!array_key_exists($required, $params)) {
-        $ret = false;
-      }
-    }
-
-    return $ret;
   }
 }
 
