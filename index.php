@@ -7,20 +7,21 @@
  */
 
 include 'lib/_lib.php';
-
 class Index {
 
   public static function Init() {
+    $params = Request::Params();
+    echo '<pre>'; print_r($params); echo '</pre>';
     if (Request::Method() == 'GET') {
       Request::Head(400);
     } else {
-      $params = Request::Params();
       if (Index::ValidateRequest($params)) {
         Index::ProcessRequest($params);
       } else {
         Request::Head(400);
       }
     }
+    Form::Debug($params);
   }
 
   public static function ProcessRequest($params) {

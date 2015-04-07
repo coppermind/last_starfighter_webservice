@@ -10,10 +10,10 @@ class Request {
     switch ($code) {
       case 400:
         $header = '400 Bad Request';
-        exit(0);
         break;
     }
-    header("{$_SERVER[SERVER_PROTOCOL]} {$header}", true, $code);
+    header("{$_SERVER['SERVER_PROTOCOL']} {$header}", true, $code);
+    echo $header;
   }
 
   public static function Redirect($uri) {
@@ -27,10 +27,10 @@ class Request {
   }
 
   public static function Params() {
-    if (self::Method() == 'GET') {
+    if (Request::Method() == 'GET') {
       return $_GET;
-    } elseif (self::Method() == 'POST') {
-      return $_POST;}
+    } elseif (Request::Method() == 'POST') {
+      return $_POST;
     }
   }
 
